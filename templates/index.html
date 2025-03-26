@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing QR Code Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Marketing QR Code Generator</h1>
+            <p>Create custom QR codes for your marketing materials</p>
+        </header>
+
+        <div class="generator-form">
+            <div class="input-group">
+                <label for="content">URL or Text:</label>
+                <input type="text" id="content" placeholder="Enter URL or text">
+            </div>
+            
+            <div class="color-options">
+                <div class="input-group">
+                    <label for="fg-color">Foreground Color:</label>
+                    <input type="color" id="fg-color" value="#000000">
+                </div>
+                <div class="input-group">
+                    <label for="bg-color">Background Color:</label>
+                    <input type="color" id="bg-color" value="#FFFFFF">
+                </div>
+            </div>
+            
+            <button id="generate-btn">Generate QR Code</button>
+        </div>
+
+        <div class="qr-result" id="qr-result" style="display: none;">
+            <div class="qr-container">
+                <img id="qr-image" alt="QR Code">
+            </div>
+            <button id="download-btn">Download QR Code</button>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
