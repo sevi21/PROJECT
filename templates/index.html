@@ -1,47 +1,152 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketing QR Code Generator</title>
+    <title>QR Code Generator | Marketing Made Simple</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
 </head>
 <body>
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
     <div class="container">
-        <header>
-            <h1>Marketing QR Code Generator</h1>
-            <p>Create custom QR codes for your marketing materials</p>
-        </header>
-
-        <div class="generator-form">
-            <div class="input-group">
-                <label for="content">URL or Text:</label>
-                <input type="text" id="content" placeholder="Enter URL or text">
+        <!-- New navigation bar -->
+        <nav class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">
+                <i class="fas fa-qrcode"></i>
+                QR Generator
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('register') }}" class="nav-link highlight">Register</a>
             </div>
-            
-            <div class="color-options">
-                <div class="input-group">
-                    <label for="fg-color">Foreground Color:</label>
-                    <input type="color" id="fg-color" value="#000000">
-                </div>
-                <div class="input-group">
-                    <label for="bg-color">Background Color:</label>
-                    <input type="color" id="bg-color" value="#FFFFFF">
-                </div>
+        </nav>
+        
+        <!-- New authentication banner -->
+        <div class="auth-banner animate__animated animate__fadeIn">
+            <div class="auth-banner-text">
+                <i class="fas fa-info-circle"></i> Please <strong>login</strong> or <strong>register</strong> to get the full experience and save your QR codes!
             </div>
-            
-            <button id="generate-btn">Generate QR Code</button>
+            <div class="auth-banner-buttons">
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('register') }}" class="nav-link highlight">Register</a>
+            </div>
         </div>
 
-        <div class="qr-result" id="qr-result" style="display: none;">
-            <div class="qr-container">
-                <img id="qr-image" alt="QR Code">
+        <section class="hero">
+            <h1 class="animate__animated animate__fadeInDown">QR Code Marketing <span style="color: #ff8a00;">Reimagined</span></h1>
+            <p class="animate__animated animate__fadeIn animate__delay-1s">Generate beautiful, customizable QR codes that enhance your brand and drive engagement</p>
+            <a href="{{ url_for('qrcode') }}" class="cta-button animate__animated animate__fadeInUp animate__delay-1s">Create Your QR Code</a>
+            
+            <div class="qr-demo animate__animated animate__fadeIn animate__delay-2s">
+                <div class="frame"></div>
             </div>
-            <button id="download-btn">Download QR Code</button>
-        </div>
+        </section>
+
+        <section class="features animate__animated animate__fadeIn animate__delay-2s">
+            <div class="feature-card">
+                <i class="fas fa-palette feature-icon floating"></i>
+                <h3>Custom Brand Colors</h3>
+                <p>Match your QR codes perfectly to your brand's color palette. No more standard black and white codes disrupting your design.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-bolt feature-icon floating"></i>
+                <h3>Instant Generation</h3>
+                <p>Create QR codes in seconds with our lightning-fast AJAX technology. No page refreshes, just smooth performance.</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-download feature-icon floating"></i>
+                <h3>Easy Download</h3>
+                <p>Download your QR codes instantly in high-resolution PNG format ready for print or digital use.</p>
+            </div>
+        </section>
+
+        <section class="demo-section animate__animated animate__fadeIn animate__delay-3s">
+            <h2>See It In Action</h2>
+            <p>Our intuitive interface makes creating custom QR codes simple</p>
+            <!--<img src="{{ url_for('static', filename='img/demo.png') }}" alt="QR Code Generator Demo" class="demo-image pulse" onerror="this.src='https://via.placeholder.com/800x450/f5f5f5/333?text=QR+Code+Generator+Interface'"> -->
+        </section>
+
+        <section class="testimonials animate__animated animate__fadeIn animate__delay-3s">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"This tool saved our marketing campaign! The colored QR codes perfectly matched our branding and got twice the scans of our previous black ones."</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Marketing Director">
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Marketing Director</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p>"I love how quickly I can generate custom QR codes for all our product packaging. The interface is so intuitive!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Product Manager">
+                        <div>
+                            <h4>David Chen</h4>
+                            <p>Product Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section animate__animated animate__fadeIn animate__delay-4s" style="text-align: center; margin-bottom: 60px;">
+            <h2>Ready to Elevate Your Marketing?</h2>
+            <p>Start creating branded QR codes that people actually want to scan.</p>
+            <a href="{{ url_for('qrcode') }}" class="cta-button">Create Your First QR Code</a>
+        </section>
+
+        <footer class="footer">
+            <p>© 2025 QR Code Generator. All rights reserved.</p>
+        </footer>
     </div>
-    
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <script>
+        // Dark mode toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const icon = darkModeToggle.querySelector('i');
+        
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate__animated');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.visibility = 'visible';
+                        entry.target.classList.add('animate__fadeIn');
+                    }
+                });
+            });
+            
+            animateElements.forEach(element => {
+                element.style.visibility = 'hidden';
+                observer.observe(element);
+            });
+        });
+    </script>
 </body>
 </html>
