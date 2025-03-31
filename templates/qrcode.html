@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketing QR Code Generator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -18,6 +19,8 @@
             <h1>Marketing QR Code Generator</h1>
             <p>Create custom QR codes for your marketing materials</p>
         </header>
+
+        <div id="errorMessage" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; text-align: center; padding: 8px; border-radius: 4px; background-color: rgba(231, 76, 60, 0.1);"></div>
 
         <div class="generator-form">
             <div class="input-group">
@@ -47,6 +50,56 @@
         </div>
     </div>
     
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const contentInput = document.getElementById('content');
+            const generateBtn = document.getElementById('generate-btn');
+            const qrResult = document.getElementById('qr-result');
+            const qrImage = document.getElementById('qr-image');
+
+
+            const ErorrMessage = document.getElementById('errorMessage');
+            ErorrMessage.style.display = 'none';
+
+            generateBtn.addEventListener('click', function(){
+                const content = contentInput.value.trim();
+
+                if (!content) {
+                    ErorrMessage.textContent = 'Please enter a URL or text.';
+                    ErorrMessage.style.display = 'block';
+
+                    setTimeout(() => {
+                        ErorrMessage.style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+
+            
+
+                $.ajax({
+                    url: '/makeQR',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        content: content
+                    }),
+                    success: function(response) {
+                        ErorrMessage.textContent = response.message;
+                        errorMessage.style.color = "#2ecc71";
+                        errorMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
+                        ErorrMessage.style.display = 'block';
+                        
+                        setTimeout(() => {
+                            ErorrMessage.style.display = 'none';
+                        }, 3000);
+
+                    },
+                    error: function() {
+                        alert('Error generating QR code. Please try again.');
+                    }
+                });
+            })
+        })
+    </script>
 </body>
 </html>

@@ -1,7 +1,10 @@
 from flask import Flask, render_template, jsonify, session, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import qrcode
+from io import BytesIO
+import base64
+import os
 
 
 app = Flask(__name__)
@@ -29,7 +32,7 @@ def index():
 
 
 @app.route('/qrcode')
-def qrcode():
+def qrcode_page():
 
     if 'username' in session:
         return render_template('qrcode.html')
@@ -90,5 +93,40 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/makeQR', methods=['POST'])
+def make_qr():
+
+    data = request.json
+
+    content = data.get('content', '')
+
+    
+    filepath = os.path.join(app.root_path, 'qrcodes', content + '.png')
+
+    qr = qrcode.QRCode(
+
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+
+    )
+
+    qr.add_data(content)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+
+    img.save(filepath)
+
+    
+
+
+
+
+    return jsonify({
+        'success': True,
+        'message': 'QR code created successfully!',
+                })
 if __name__ == '__main__':
     app.run(debug=True)
