@@ -452,3 +452,29 @@ body.dark-mode .auth-banner {
     background-color: rgba(110, 142, 251, 0.15);
     border-left: 4px solid #a777e3;
 }
+
+.user-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+.welcome-user {
+    margin-right: 15px;
+    align-self: center;
+}

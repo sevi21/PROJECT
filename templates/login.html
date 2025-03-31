@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -16,8 +16,10 @@
             <h1><i class="fas fa-qrcode"></i> QR Generator</h1>
             <p>Login to access your account</p>
         </div>
+
+        <div id="errorMessage" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; text-align: center; padding: 8px; border-radius: 4px; background-color: rgba(231, 76, 60, 0.1);"></div>
         
-        <form action="#" method="post">
+        <form id="loginForm" action="#" method="post">
             <div class="form-group">
                 <label for="name">Username</label>
                 <div class="input-icon-wrapper">
@@ -43,5 +45,66 @@
         
         <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            //ko pritisnes na tipko eneter se zmeraj submita obrazec 
+            $("#loginForm").submit(function(event) {
+                //prepreci defaultno obnašanje obrazca da se ne osveži stran ampak ajax prevzame nadzor
+                event.preventDefault();
+                login();
+            });
+        });
+
+        function login() {
+
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            const username = $("#name").val();
+            const password = $("#password").val();
+
+            if (username === "" || password === "") {
+                errorMessage.textContent = 'Username and password are required!';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+
+                    username: username,
+                    password: password
+
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        errorMessage.textContent = "Login successfully!";
+                        errorMessage.style.color = "#2ecc71";
+                        errorMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
+                        errorMessage.style.display = 'block';
+
+                        //pocaka 1.5 sekunde in preusmeri na qrcode
+                        setTimeout(function() {
+                            window.location.href = "/qrcode";
+                        }, 1500)
+
+                    } else {
+                        errorMessage.textContent = response.message;
+                        errorMessage.style.display = 'block';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error details:', xhr.responseText);
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
+
+        
+    </script>
 </body>
 </html>

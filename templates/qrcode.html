@@ -9,6 +9,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="user-controls">
+            <span class="welcome-user">Welcome, {{ session.username }}!</span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+        
         <header>
             <h1>Marketing QR Code Generator</h1>
             <p>Create custom QR codes for your marketing materials</p>
