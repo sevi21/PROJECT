@@ -99,7 +99,8 @@ def make_qr():
     data = request.json
 
     content = data.get('content', '')
-
+    fg_color = data.get('fgColor', '#000000')
+    bg_color = data.get('bgColor', '#FFFFFF')
     
     filepath = os.path.join(app.root_path, 'qrcodes', content + '.png')
 
@@ -115,7 +116,7 @@ def make_qr():
     qr.add_data(content)
     qr.make(fit=True)
 
-    img = qr.make_image(fill_color="black", back_color="white")
+    img = qr.make_image(fill_color=fg_color, back_color=bg_color)
 
     img.save(filepath)
 
@@ -128,5 +129,6 @@ def make_qr():
         'success': True,
         'message': 'QR code created successfully!',
                 })
+
 if __name__ == '__main__':
     app.run(debug=True)

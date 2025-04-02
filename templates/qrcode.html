@@ -56,6 +56,8 @@
             const generateBtn = document.getElementById('generate-btn');
             const qrResult = document.getElementById('qr-result');
             const qrImage = document.getElementById('qr-image');
+            const color1 = document.getElementById('fg-color');
+            const color2 = document.getElementById('bg-color');
 
 
             const ErorrMessage = document.getElementById('errorMessage');
@@ -63,6 +65,8 @@
 
             function generateQR() {
                 const content = contentInput.value.trim();
+                const fgColor = color1.value;
+                const bgColor = color2.value;
 
                 if (!content) {
                     ErorrMessage.textContent = 'Please enter a URL or text.';
@@ -81,12 +85,14 @@
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        content: content
+                        content: content,
+                        fgColor: fgColor,
+                        bgColor: bgColor
                     }),
                     success: function(response) {
                         ErorrMessage.textContent = response.message;
-                        errorMessage.style.color = "#2ecc71";
-                        errorMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
+                        ErrorMessage.style.color = "#2ecc71";
+                        ErrorMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
                         ErorrMessage.style.display = 'block';
                         
                         setTimeout(() => {
