@@ -91,9 +91,12 @@
                     }),
                     success: function(response) {
                         ErorrMessage.textContent = response.message;
-                        ErrorMessage.style.color = "#2ecc71";
-                        ErrorMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
+                        ErorrMessage.style.color = "#2ecc71";
+                        ErorrMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
                         ErorrMessage.style.display = 'block';
+
+                        qrImage.src = 'data:image/png;base64,' + response.img_str;
+                        qrResult.style.display = 'block';
                         
                         setTimeout(() => {
                             ErorrMessage.style.display = 'none';

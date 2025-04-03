@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import qrcode
 from io import BytesIO
 import base64
-import os
+
 
 
 app = Flask(__name__)
@@ -101,8 +101,6 @@ def make_qr():
     content = data.get('content', '')
     fg_color = data.get('fgColor', '#000000')
     bg_color = data.get('bgColor', '#FFFFFF')
-    
-    filepath = os.path.join(app.root_path, 'qrcodes', content + '.png')
 
     qr = qrcode.QRCode(
 
@@ -118,17 +116,15 @@ def make_qr():
 
     img = qr.make_image(fill_color=fg_color, back_color=bg_color)
 
-    img.save(filepath)
-
-    
-
-
-
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
 
     return jsonify({
         'success': True,
         'message': 'QR code created successfully!',
-                })
+        'img_str': img_str
+        })
 
 if __name__ == '__main__':
     app.run(debug=True)
