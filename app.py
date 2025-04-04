@@ -20,6 +20,16 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
+    qr_codes = db.relationship('QRCode', backref='user', lazy=True)
+
+
+class QRCode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.String(500))
+    img_data = db.Column(db.Text)
+    fg_color = db.Column(db.String(10))
+    bg_color = db.Column(db.String(10))
 
 
 with app.app_context():
@@ -53,6 +63,7 @@ def login():
         if user and check_password_hash(user.password, password):
             session['username'] = username
             return jsonify({'success': True})
+        
         else:
             return jsonify({'success': False, 'message': 'Invalid username or password'})
     
@@ -101,6 +112,7 @@ def make_qr():
     content = data.get('content', '')
     fg_color = data.get('fgColor', '#000000')
     bg_color = data.get('bgColor', '#FFFFFF')
+    save = data.get('save', False)
 
     qr = qrcode.QRCode(
 
@@ -120,9 +132,32 @@ def make_qr():
     img.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode()
 
+    
+
+    if save:
+        user = User.query.filter_by(username=session['username']).first()
+
+        save_qr = QRCode(
+
+            user_id=user.id,
+            content=content,
+            img_data=img_str,
+            fg_color=fg_color,
+            bg_color=bg_color
+
+        )
+
+        db.session.add(save_qr)
+        db.session.commit()
+
+        message = "QR code created and saved successfully!"
+
+    else:
+        message = "QR code created successfully!"
+
     return jsonify({
         'success': True,
-        'message': 'QR code created successfully!',
+        'message': message,
         'img_str': img_str
         })
 
