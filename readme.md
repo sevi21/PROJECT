@@ -22,3 +22,19 @@ A Flask-based web application for creating custom QR codes with branding capabil
 | • Integration with other marketing tools | • Security concerns around QR code usage |
 | • Mobile app extension possibility | • Free alternatives from major tech companies |
 | • API offering for developers | • Possible market saturation |
+
+
+
+## MVP
+
+| **Features** | **MVP** | **Final Product** |
+|---------------|----------------|----------------|
+| User Authentication | Simple login/register functionality | Social login, password recovery, profile management |
+| QR Code Generation | Basic QR code creation with URL/text input | Advanced QR code options with analytics and tracking |
+| Customization | Foreground/background color selection | Logo embedding, custom shapes, design templates |
+| Download Options | PNG download | Multiple formats (SVG, PDF, EPS), resolution options |
+| Saving QR Codes | Basic saving to user account | Folders/categories, sharing capabilities |
+| User Interface | Clean, responsive design | Advanced UI, accessibility features |
+| Deployment | Web-based only | Progressive web app, native mobile apps |
+| Security | Basic authentication security | Advanced encryption |
+| Pricing | Simulation | Monthly plan with removing ads and unlimited qrcode generatings |
