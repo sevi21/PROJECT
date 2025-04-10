@@ -2,6 +2,8 @@
 
 A Flask-based web application for creating custom QR codes with branding capabilities.
 
+
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=sevi21.PROJECT)
 ![Brainstorm](brainstorm.png)
 
 
