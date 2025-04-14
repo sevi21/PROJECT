@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | QR Code Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="user-controls">
+            <a href="{{ url_for('qrcode_page') }}" class="nav-link">QR Generator</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+        
+        <header>
+            <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+            <p>Manage your account information</p>
+        </header>
+
+        <div id="errorMessage" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; text-align: center; padding: 8px; border-radius: 4px; background-color: rgba(231, 76, 60, 0.1);"></div>
+
+        <div class="profile-card">
+            <div class="profile-header">
+                <i class="fas fa-user-circle profile-avatar"></i>
+                <h2>{{ session.username }}</h2>
+            </div>
+
+            <div class="profile-form">
+                <div class="input-group">
+                    <label for="current-password">Current Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="current-password" class="form-control input-with-icon" placeholder="Enter current password" style="width: 90%;">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="new-password">New Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-key input-icon"></i>
+                        <input type="password" id="new-password" class="form-control input-with-icon" placeholder="Enter new password" style="width: 90%;">
+                    </div>
+                </div>
+
+                <button id="update-password-btn" class="btn-primary">Update Password</button>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <i class="fas fa-qrcode stat-icon"></i>
+                    <div class="stat-info">
+                        <span id="qr-count">{{ qr_count }}</span>
+                        <p>QR Codes Created</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-alt stat-icon"></i>
+                    <div class="stat-info">
+                        <span>{{ join_date }}</span>
+                        <p>Member Since</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="{{ url_for('qrcode_page') }}" class="back-link"><i class="fas fa-arrow-left"></i> Back to QR Generator</a>
+    </div>
+
+    <script src="/static/js/profile.js"></script>
+</body>
+</html>

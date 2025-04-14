@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import qrcode
 from io import BytesIO
 import base64
-
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(50))
+    join_date = db.Column(db.DateTime, default=datetime.now)
     qr_codes = db.relationship('QRCode', backref='user', lazy=True)
 
 
@@ -160,6 +161,48 @@ def make_qr():
         'message': message,
         'img_str': img_str
         })
+
+
+
+@app.route('/profile')
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    user = User.query.filter_by(username=session['username']).first()
+    
+    qr_count = QRCode.query.filter_by(user_id=user.id).count()
+    
+    join_date = user.join_date.strftime("%B %Y")
+    
+    return render_template('profile.html', qr_count=qr_count, join_date=join_date)
+
+
+
+@app.route('/update_password', methods=['POST'])
+def update_password():
+    
+    
+    data = request.json
+    current_password = data.get('current_password')
+    new_password = data.get('new_password')
+    
+    user = User.query.filter_by(username=session['username']).first()
+    
+    if not check_password_hash(user.password, current_password):
+        return jsonify({'success': False, 'message': 'Current password is incorrect'})
+    
+    if len(new_password) < 4:
+        return jsonify({'success': False, 'message': 'New password must be at least 4 characters long'})
+    
+
+    user.password = generate_password_hash(new_password)
+    db.session.commit()
+    
+    return jsonify({
+        'success': True, 
+        'message': 'Password updated successfully'
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
