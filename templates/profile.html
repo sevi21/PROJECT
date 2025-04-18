@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,6 +46,10 @@
                 </div>
 
                 <button id="update-password-btn" class="btn-primary">Update Password</button>
+            </div>
+
+            <div class="profile-actions">
+                <a href="{{ url_for('my_qrcodes') }}" class="btn"><i class="fas fa-qrcode"></i> View My QR Codes ({{ qr_count }})</a>
             </div>
 
             <div class="profile-stats">

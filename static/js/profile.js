@@ -1,5 +1,12 @@
 $(document).ready(function() {
     $('#update-password-btn').on('click', updateProfile);
+    
+     document.getElementById('new-password').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            updateProfile();
+        }
+    });
 });
 
 function updateProfile() {
@@ -45,6 +52,5 @@ function updateProfile() {
                 alert('An error occurred. Please try again.');
             }
         });
-    };
-    
+    }
     

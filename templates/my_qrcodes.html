@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My QR Codes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>My Saved QR Codes</h1>
+        
+        <div class="qr-grid">
+            {% if qrcodes %}
+                {% for qr in qrcodes %}
+                    <div class="qr-item">
+                        <img src="data:image/png;base64,{{ qr.img_data }}" alt="QR Code">
+                        <p>{{ qr.content }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>You have no saved QR codes yet.</p>
+            {% endif %}
+        </div>
+        
+        <div class="actions">
+            <a href="{{ url_for('profile') }}" class="btn">Back to Profile</a>
+            <a href="{{ url_for('qrcode_page') }}" class="btn">Create New QR Code</a>
+        </div>
+    </div>
+</body>
+</html>

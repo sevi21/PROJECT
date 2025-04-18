@@ -1,4 +1,3 @@
-.css
 /* Base styles */
 * {
     margin: 0;
@@ -254,6 +253,40 @@ label {
     text-align: center;
 }
 
+/* Profile actions */
+.profile-actions {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.profile-actions .btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    color: white;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+    border: none;
+}
+
+.profile-actions .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(110, 142, 251, 0.4);
+}
+
+.profile-actions .btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(110, 142, 251, 0.35);
+}
+
+.profile-actions .btn i {
+    margin-right: 8px;
+}
+
 /* Dark mode styles */
 body.dark-mode {
     background-color: #121212;
@@ -340,5 +373,14 @@ body.dark-mode .back-link:hover {
     
     .nav-link {
         margin-bottom: 10px;
+    }
+}
+
+/* Adjust padding for mobile screens */
+@media (max-width: 480px) {
+    .profile-actions .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
     }
 }

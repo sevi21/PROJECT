@@ -204,5 +204,16 @@ def update_password():
         'message': 'Password updated successfully'
     })
 
+
+@app.route('/my_qrcodes')
+def my_qrcodes():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    user = User.query.filter_by(username=session['username']).first()
+    qrcodes = QRCode.query.filter_by(user_id=user.id).all()
+    
+    return render_template('my_qrcodes.html', qrcodes=qrcodes)
+
 if __name__ == '__main__':
     app.run(debug=True)
