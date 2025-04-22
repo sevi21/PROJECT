@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My QR Codes</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -17,6 +17,7 @@
                     <div class="qr-item">
                         <img src="data:image/png;base64,{{ qr.img_data }}" alt="QR Code">
                         <p>{{ qr.content }}</p>
+                        <button class="download-btn" data-content="{{ qr.content }}">Download</button>
                     </div>
                 {% endfor %}
             {% else %}
@@ -29,5 +30,7 @@
             <a href="{{ url_for('qrcode_page') }}" class="btn">Create New QR Code</a>
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/my_qrcodes.js') }}"></script>
 </body>
 </html>

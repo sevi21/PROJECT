@@ -215,5 +215,28 @@ def my_qrcodes():
     
     return render_template('my_qrcodes.html', qrcodes=qrcodes)
 
+
+@app.route('/download_qr', methods=['POST'])
+def download_qr():
+    if 'username' not in session:
+        return jsonify({'success': False, 'message': 'Please login first'})
+    
+    data = request.json
+    content = data.get('content')
+    
+    user = User.query.filter_by(username=session['username']).first()
+    qrcode = QRCode.query.filter_by(content=content, user_id=user.id).first()
+    
+    if not qrcode:
+        return jsonify({'success': False, 'message': 'QR code not found or unauthorized'})
+    
+    return jsonify({
+        'success': True,
+        'img_data': qrcode.img_data
+    })
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
