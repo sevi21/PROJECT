@@ -236,6 +236,17 @@ def download_qr():
     })
 
 
+@app.route('/admin')
+def admin():
+    if 'username' not in session or session['username'] != 'admin':
+        return redirect(url_for('login'))
+    
+    users = User.query.count()
+
+
+    return render_template('admin.html', users=users)
+
+
 
 
 if __name__ == '__main__':
