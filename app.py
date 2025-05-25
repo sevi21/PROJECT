@@ -107,21 +107,25 @@ def logout():
 
 @app.route('/makeQR', methods=['POST'])
 def make_qr():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    user = User.query.filter_by(username=session['username']).first()
+    qr_count = QRCode.query.filter_by(user_id=user.id).count()
+    
+    if qr_count >= 5:
+        return jsonify({'success': False, 'message': 'You have reached the maximum of 5 QR codes. Please purchase a premium account to create more.'})
 
     data = request.json
-
     content = data.get('content', '')
     fg_color = data.get('fgColor', '#000000')
     bg_color = data.get('bgColor', '#FFFFFF')
-    save = data.get('save', False)
 
     qr = qrcode.QRCode(
-
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
-
     )
 
     qr.add_data(content)
@@ -133,34 +137,22 @@ def make_qr():
     img.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode()
 
-    
+    save_qr = QRCode(
+        user_id=user.id,
+        content=content,
+        img_data=img_str,
+        fg_color=fg_color,
+        bg_color=bg_color
+    )
 
-    if save:
-        user = User.query.filter_by(username=session['username']).first()
-
-        save_qr = QRCode(
-
-            user_id=user.id,
-            content=content,
-            img_data=img_str,
-            fg_color=fg_color,
-            bg_color=bg_color
-
-        )
-
-        db.session.add(save_qr)
-        db.session.commit()
-
-        message = "QR code created and saved successfully!"
-
-    else:
-        message = "QR code created successfully!"
+    db.session.add(save_qr)
+    db.session.commit()
 
     return jsonify({
         'success': True,
-        'message': message,
+        'message': "QR code created successfully!",
         'img_str': img_str
-        })
+    })
 
 
 
@@ -172,10 +164,15 @@ def profile():
     user = User.query.filter_by(username=session['username']).first()
     
     qr_count = QRCode.query.filter_by(user_id=user.id).count()
+
+    warning = None
+
+    if qr_count == 4:
+        warning = "You have one QR code left. Please purchase a premium account to create more."
     
     join_date = user.join_date.strftime("%B %Y")
     
-    return render_template('profile.html', qr_count=qr_count, join_date=join_date)
+    return render_template('profile.html', qr_count=qr_count, join_date=join_date, warning=warning)
 
 
 

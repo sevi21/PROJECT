@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function(){
         const content = contentInput.value.trim();
         const fgColor = color1.value;
         const bgColor = color2.value;
-        const save = document.getElementById('save-to-db').checked;
 
         if (!content) {
             ErorrMessage.textContent = 'Please enter a URL or text.';
@@ -36,22 +35,28 @@ document.addEventListener('DOMContentLoaded', function(){
             data: JSON.stringify({
                 content: content,
                 fgColor: fgColor,
-                bgColor: bgColor,
-                save: save
+                bgColor: bgColor
+                
             }),
             success: function(response) {
-                ErorrMessage.textContent = response.message;
-                ErorrMessage.style.color = "#2ecc71";
-                ErorrMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
-                ErorrMessage.style.display = 'block';
+                if (response.success){
+                    ErorrMessage.textContent = response.message;
+                    ErorrMessage.style.color = "#2ecc71";
+                    ErorrMessage.style.backgroundColor = "rgba(46, 204, 113, 0.1)";
+                    ErorrMessage.style.display = 'block';
 
-                qrImage.src = 'data:image/png;base64,' + response.img_str;
-                qrResult.style.display = 'block';
+                    qrImage.src = 'data:image/png;base64,' + response.img_str;
+                    qrResult.style.display = 'block';
                 
-                setTimeout(() => {
-                    ErorrMessage.style.display = 'none';
-                }, 3000);
-
+                    setTimeout(() => {
+                        ErorrMessage.style.display = 'none';
+                    }, 3000);
+                }
+                else {
+                    ErorrMessage.textContent = response.message;
+                    ErorrMessage.style.display = 'block';
+                    
+                }
             },
             error: function() {
                 alert('Error generating QR code. Please try again.');

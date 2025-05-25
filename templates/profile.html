@@ -20,6 +20,13 @@
             <p>Manage your account information</p>
         </header>
 
+        {% if warning %}
+            <div class="warning-message" style="color: #e67e22; background: rgba(230, 126, 34, 0.1); border-radius: 4px; padding: 10px; margin-bottom: 15px; text-align: center;">
+                <i class="fas fa-exclamation-triangle"></i>
+                {{ warning }}
+            </div>
+        {% endif %}
+
         <div id="errorMessage" class="error-message" style="display: none; color: #e74c3c; margin-bottom: 15px; text-align: center; padding: 8px; border-radius: 4px; background-color: rgba(231, 76, 60, 0.1);"></div>
 
         <div class="profile-card">
