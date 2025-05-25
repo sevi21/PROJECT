@@ -40,3 +40,27 @@ A Flask-based web application for creating custom QR codes with branding capabil
 | Deployment | Web-based only | Progressive web app, native mobile apps |
 | Security | Basic authentication security | Advanced encryption |
 | Pricing | Simulation | Monthly plan with removing ads and unlimited qrcode generatings |
+
+
+
+## USE INSTRUCTIONS
+
+1. Clone this GitHub repo:
+   ```
+   git clone https://github.com/sevi21/PROJECT
+   ```
+
+2. Navigate to your working folder:
+   ```
+   cd PROJECT
+   ```
+
+3. Install the requirements:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Start the app:
+   ```
+   python3 app.py
+   ```
