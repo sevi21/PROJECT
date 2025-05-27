@@ -240,8 +240,10 @@ def admin():
     
     users = User.query.count()
 
+    userss = users - 1
 
-    return render_template('admin.html', users=users)
+
+    return render_template('admin.html', userss=userss)
 
 
 
